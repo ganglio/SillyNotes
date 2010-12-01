@@ -22,6 +22,10 @@
 			<canvas id="doodle"></canvas>
 			<div id='note' contenteditable="true" designmode="on"><?php echo $note["text"] ?></div>
 			<!--div id="debug"></div-->
+			<div id="toolbox">
+				<div id="eraser" class="tool"></div>
+				<div id="pencil" class="tool selected"></div>
+			</div>
 		</div>
 	</body>
 </html>

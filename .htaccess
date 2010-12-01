@@ -3,4 +3,5 @@ RewriteCond %{REQUEST_URI} !index.php
 RewriteCond %{REQUEST_URI} !.css
 RewriteCond %{REQUEST_URI} !.js
 RewriteCond %{REQUEST_URI} !.jpg
+RewriteCond %{REQUEST_URI} !.png
 RewriteRule (.*) index.php?id=$1&%{QUERY_STRING}

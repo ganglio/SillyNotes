@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	var $note=$("#note");
 	$note.width($note.width()-55);
+	var tool=1; // 1 pencil 0 eraser
 	
 	
 	var $doodle=$("#doodle");
@@ -18,6 +19,7 @@ $(document).ready(function(){
 	img.src=img_src;
 	$context.beginPath();
 	$context.strokeStyle="#0000bb";
+	$context.lineWidth=1;
 	
 	
 	
@@ -45,7 +47,6 @@ $(document).ready(function(){
 		} else {
 			$context.moveTo(e.layerX,e.layerY);
 		}
-		
 		return false;
 	});
 	
@@ -66,6 +67,22 @@ $(document).ready(function(){
 		},"text");
 		
 		return false;
+	});
+	
+	$(".tool").click(function(){
+		$(this).siblings().removeClass("selected");
+		$(this).addClass("selected");
+		if ($(this).attr("id")=="pencil") {
+			$context.closePath();
+			$context.strokeStyle="#0000bb";
+			$context.lineWidth=1;
+			$context.beginPath();
+		} else {
+			$context.closePath();
+			$context.strokeStyle="#ffffff";
+			$context.lineWidth=30;
+			$context.beginPath();
+		}
 	});
 	
 });
