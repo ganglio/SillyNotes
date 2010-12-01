@@ -1,33 +1,46 @@
 $(document).ready(function(){
 	var $note=$("#note");
-	$note.width($note.width()-55);
+	var $doc=$(document);
 	var tool=1; // 1 pencil 0 eraser
-	
-	
 	var $doodle=$("#doodle");
+	var button=0;
+	var $context=$doodle.get(0).getContext("2d");
+	var lastDoodle;
+	
 	$doodle.height($note.height()).width($(window).width-$note.width());
 	$doodle.get(0).height=$doodle.get(0).clientHeight;
 	$doodle.get(0).width=$doodle.get(0).clientWidth;///*/
+	$note.width($note.width()-55);
 	
-	var button=0;
 	
-	var $context=$doodle.get(0).getContext("2d");
-	var img=new Image();
-	img.onload=function(){
-		$context.drawImage(img,0,0);
+	function pasteImg(src,context) {
+		var img=new Image();
+		img.onload=function(){
+			context.drawImage(img,0,0);
+		}
+		img.src=src;
+		lastDoodle=src;
+		context.beginPath();
+		context.strokeStyle="#0000bb";
+		context.lineWidth=1;
 	}
-	img.src=img_src;
-	$context.beginPath();
-	$context.strokeStyle="#0000bb";
-	$context.lineWidth=1;
 	
-	
-	
-	var $doc=$(document);
+	pasteImg(img_src,$context);
 	
 	$note.keyup(function(){
 		txt=$(this).html();
-		$doodle.height($note.height()).width($(window).width-$note.width());
+		
+		NW=$note.width()+$note.css("padding-left");
+		NH=$note.height();
+		WW=$(window).width();
+		WH=$(window).height();
+		
+		DW=WW-NW;
+		DH=Math.max(NH,WH);
+		
+		$doodle.height(DH).width(DW).attr("height",DH);
+		pasteImg(lastDoodle,$context);
+		
 		$.post(location.href,{
 			"txt":txt
 		},function(r){
@@ -58,9 +71,9 @@ $(document).ready(function(){
 	$doodle.mouseup(function(e){
 		button=0;
 		
-		doodle=$doodle.get(0).toDataURL();
+		lastDoodle=$doodle.get(0).toDataURL();
 		$.post(location.href,{
-			"doodle":doodle
+			"doodle":lastDoodle
 		},function(r){
 			if (r!="OK")
 				alert("Something happened...\nSo, so sorry!");
