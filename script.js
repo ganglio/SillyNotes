@@ -7,10 +7,13 @@ $(document).ready(function(){
 	var $context=$doodle.get(0).getContext("2d");
 	var lastDoodle;
 	
-	$doodle.height($note.height()).width($(window).width-$note.width());
-	$doodle.get(0).height=$doodle.get(0).clientHeight;
-	$doodle.get(0).width=$doodle.get(0).clientWidth;///*/
-	$note.width($note.width()-55);
+	$(window).load(function(){
+		$doodle.height($note.height()).width($(window).width-$note.width());
+		$doodle.get(0).height=$doodle.get(0).clientHeight;
+		$doodle.get(0).width=$doodle.get(0).clientWidth;
+		$note.width($note.width()-55);
+		pasteImg(img_src,$context);
+	});
 	
 	
 	function pasteImg(src,context) {
@@ -24,8 +27,6 @@ $(document).ready(function(){
 		context.strokeStyle="#0000bb";
 		context.lineWidth=1;
 	}
-	
-	pasteImg(img_src,$context);
 	
 	$note.keyup(function(){
 		txt=$(this).html();
